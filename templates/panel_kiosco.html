@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='panel_kiosco.css') }}">
+
+    <title>Panel</title>
+</head>
+<body>
+  {% extends 'base.html' %}
+  
+  {% block title %}Panel de Kiosco{% endblock %}
+  
+  {% block content %}
+  <h2>Panel de Kiosco - {{ nombre }}</h2>
+  
+  <h3>Agregar nuevo producto</h3>
+  <form method="POST">
+      <label for="nombre">Nombre:</label>
+      <input type="text" name="nombre" required>
+  
+      <label for="precio">Precio:</label>
+      <input type="number" name="precio" step="0.01" required>
+  
+      <label for="stock">Stock:</label>
+      <input type="number" name="stock" required>
+  
+      <button type="submit">Agregar Producto</button>
+  </form>
+  
+  <hr>
+  
+  <h3>Inventario Actual</h3>
+  <table border="1">
+      <thead>
+          <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Stock</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for item in items %}
+          <tr>
+              <td>{{ item[0] }}</td>
+              <td>{{ item[1] }}</td>
+              <td>${{ '%.2f' | format(item[2]) }}</td>
+              <td>{{ item[3] }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+  
+  {% endblock %}
+
+</body>
+</html>
