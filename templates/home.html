@@ -10,8 +10,8 @@
 <body>
   <nav>
     {% if 'usuario_id' in session %}
-      <a href="/home">Home</a>
-      <a href="/logout">Cerrar sesión</a>
+      <a href="/home"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión</a>
     {% else %}
       <a href="/login">Iniciar sesión</a>
       <a href="/register">Registrarse</a>
