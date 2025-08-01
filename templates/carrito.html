@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tu carrito</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='carrito.css') }}">
+</head>
+<body>
+  <h1 style="text-align:center; margin-top:2rem;">🛒 Carrito de compras</h1>
+
+<div class="sidebar">
+    {% if 'usuario_id' in session %}
+      <a href="/home"><--</a>
+      <a href="/logout">Cerrar sesión</a>
+      {% if tipo == 'user' %}
+        <a href="{{ url_for('ver_carrito') }}">perfil</a>
+      {% elif tipo == 'kiosco' %}
+        <a href="/panel_kiosco">Panel de control</a>
+      {% endif %}
+    {% else %}
+      <a href="/login">Iniciar sesión</a>
+      <a href="/register">Registrarse</a>
+    {% endif %}
+
+  </div>
+  {% if carrito %}
+    <div class="carrito">
+      {% for item_id, item in carrito.items() %}
+        <div class="card-producto">
+          <!-- Si usás imágenes, activá esta línea -->
+          {# <img src="{{ url_for('static', filename='img/' + item['imagen']) }}" alt="Imagen de {{ item['nombre'] }}"> #}
+
+          <h3>{{ item['nombre'] }}</h3>
+          <p>Cantidad: {{ item['cantidad'] }}</p>
+          <p class="precio">Precio unitario: ${{ "%.2f"|format(item['precio']) }}</p>
+          <p class="precio">Subtotal: ${{ "%.2f"|format(item['precio'] * item['cantidad']) }}</p>
+
+          <div class="acciones">
+            <a href="{{ url_for('eliminar_item', item_id=item_id) }}" class="btn">❌ Quitar</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="total-carrito" style="text-align:center; margin:2rem;">
+      <h3>Total: ${{ "%.2f"|format(total) }}</h3>
+      <a href="{{ url_for('vaciar_carrito') }}" class="btn">🧹 Vaciar carrito</a>
+      <button class="btn">💳 Finalizar compra</button>
+      <a href="{{ url_for('home') }}" class="btn">🏠 Volver al inicio</a>
+    </div>
+  {% else %}
+    <p style="text-align:center;">Tu carrito está vacío.</p>
+  {% endif %}
+    <script>
+    function toggleMenu() {
+      document.querySelector('.sidebar').classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
+
+

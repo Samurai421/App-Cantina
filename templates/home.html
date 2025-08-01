@@ -1,25 +1,70 @@
-<!-- templates/base.html -->
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html> <!-- Define el tipo de documento HTML -->
+<html lang="es"> <!-- Establece el idioma principal en español -->
 <head>
-  <meta charset="UTF-8">
-  <title>{% block title %}Mi App{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+  <meta charset="UTF-8"> <!-- Codificación de caracteres UTF-8 -->
+  <title>{% block title %}Mi App{% endblock %}</title> <!-- Bloque dinámico para el título -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}"> <!-- CSS local -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!-- Iconos FontAwesome -->
 </head>
 <body>
-  <nav>
-    {% if 'usuario_id' in session %}
-      <a href="/home">Home</a>
-      <a href="/logout">Cerrar sesión</a>
-    {% else %}
-      <a href="/login">Iniciar sesión</a>
-      <a href="/register">Registrarse</a>
-    {% endif %}
-  </nav>
 
+  <!-- 🔷 Encabezado principal -->
+  <header class="app-header">
+    <div class="header-top">
+      <!-- Botón para mostrar/ocultar el menú lateral -->
+      <button id="menu-toggle" class="menu-icon">
+        <i class="fa-solid fa-bars" style="color: #000;"></i>
+      </button>
+
+      <!-- Título del sitio -->
+      <h1 class="titulo-header">Pedí lo que quieras ya</h1>
+
+      <!-- Botón para acceder al carrito de compras -->
+      <button id="cart-button" class="cart-icon">
+        <i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
+      </button>
+    </div>
+
+    <!-- 🔍 Buscador de productos -->
+    <form method="GET" action="/home" class="buscador-productos">
+      <button type="submit" class="buscador-icono">
+        <i class="fa-solid fa-magnifying-glass" style="color:#2ecc71;"></i>
+      </button>
+      <input type="text" name="busqueda" placeholder="Buscar productos..." value="{{ request.args.get('busqueda', '') }}">
+    </form>
+  </header>
+
+  <!-- 📂 Menú lateral (sidebar) -->
+  <div class="sidebar">
+    <!-- Botón de menú visible dentro de la sidebar -->
+    <button class="menu-icon" onclick="toggleMenu()">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    {% if 'usuario_id' in session %}
+      <!-- Enlaces para usuarios registrados -->
+      <button class="sidebar-btn"><i class="fa-solid fa-house"></i> Inicio</button>
+      <button class="sidebar-btn"><i class="fa-solid fa-user"></i> Datos del usuario</button>
+      <button class="sidebar-btn"><i class="fa-solid fa-credit-card"></i> Medios de pago</button>
+      <button class="sidebar-btn" onclick="location.href='/logout'"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
+
+      {% if tipo == 'user' %}
+        <button class="sidebar-btn" onclick="location.href='{{ url_for('ver_carrito') }}'"><i class="fa-solid fa-cart-shopping"></i> Ver Carrito</button>
+      {% elif tipo == 'kiosco' %}
+        <button class="sidebar-btn" onclick="location.href='/panel_kiosco'"><i class="fa-solid fa-shop"></i> Panel de control</button>
+      {% endif %}
+    {% else %}
+      <!-- Enlaces para usuarios no registrados -->
+      <button class="sidebar-btn" onclick="location.href='/login'"><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</button>
+      <button class="sidebar-btn" onclick="location.href='/register'"><i class="fa-solid fa-user-plus"></i> Registrarse</button>
+    {% endif %}
+  </div>
+
+  <!-- 🧱 Sección principal de contenido -->
   <div class="contenido">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
+        <!-- Mensajes flash (notificaciones del servidor) -->
         <ul class="mensajes">
           {% for msg in messages %}
             <li>{{ msg }}</li>
@@ -28,20 +73,46 @@
       {% endif %}
     {% endwith %}
 
-    {% block content %}{% endblock %}
+    <!-- 🛍 Catálogo de productos -->
+    <section class="catalogo-productos">
+      {% for item in items %}
+        <div class="producto-card">
+          <div class="info-producto">
+            <h3>{{ item[1] }}</h3> <!-- Nombre del producto -->
+            <p class="precio">Precio: ${{ "%.2f"|format(item[2]) }}</p> <!-- Precio con formato -->
+            <p class="stock">Stock disponible: {{ item[3] }}</p> <!-- Cantidad disponible -->
+
+            {% if tipo == 'user' %}
+              <!-- Botón para agregar al carrito -->
+              <button onclick="location.href='{{ url_for('agregar_carrito', item_id=item[0]) }}'">Agregar</button>
+            {% elif tipo == 'kiosco' %}
+              <!-- Mensaje informativo para kioscos -->
+              <p>Este es tu producto. Podés editarlo desde el panel.</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </section>
+
+    {% block content %}{% endblock %} <!-- Espacio para contenido adicional -->
   </div>
 
-    <h1>Bienvenido/a, {{ nombre }}</h1>
-  
-    {% if tipo == 'user' %}
-        <p>Estás logueado como usuario normal. Podés hacer pedidos al kiosco.</p>
-    {% elif tipo == 'kiosco' %}
-        <p>Estás logueado como kiosco. Podés gestionar productos y ver pedidos.</p>
-        <a href="/panel_kiosco">panel de control.</a>
-    {% else %}
-        <p>Tipo de usuario desconocido.</p>
-    {% endif %}
-  
+  <!-- 🧠 Scripts de interacción -->
+  <script>
+    // Función para mostrar/ocultar el menú lateral
+    function toggleMenu() {
+      document.querySelector('.sidebar').classList.toggle('active');
+    }
+
+    // Eventos para los botones principales
+    document.getElementById("menu-toggle").addEventListener("click", function () {
+      document.querySelector(".sidebar").classList.toggle("active");
+    });
+
+    document.getElementById("cart-button").addEventListener("click", function () {
+      window.location.href = "{{ url_for('ver_carrito') }}";
+    });
+  </script>
 
 </body>
 </html>
