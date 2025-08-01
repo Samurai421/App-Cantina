@@ -1,0 +1,359 @@
+/* =========================== */
+/* 🎨 Estilo general de la página */
+/* =========================== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f8f8f8;
+  box-sizing: border-box;
+}
+
+
+/* =========================== */
+/* 🧠 Encabezado estilo app */
+/* =========================== */
+.app-header {
+  background-color: #62ab37; /* nuevo color aplicado */
+  color: white;
+  padding: 2.5rem 1.2rem;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  animation: headerFade 0.5s ease-in-out;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.titulo-header {
+  font-size: 2.4rem;
+  font-weight: 600;
+  text-align: center;
+  flex-grow: 1;
+  margin: 0 0.8rem;
+  line-height: 1.2;
+}
+
+.menu-icon,
+.cart-icon {
+  background: none;
+  border: none;
+  font-size: 2.2rem;
+  color: white;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease-in-out;
+}
+
+.menu-icon:hover,
+.cart-icon:hover {
+  transform: scale(1.1);
+  color: #ffffff;
+}
+
+
+/* =========================== */
+/* 🔍 Estilo del buscador */
+/* =========================== */
+.buscador-productos {
+  margin-top: 1.2rem;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 0.5rem;
+  background-color: white;
+  padding: 0.6rem;
+  border-radius: 14px;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border: 1px solid #e1e0e0; /* borde fino reemplazado */
+  transition: border-color 0.2s ease-in-out;
+}
+
+.buscador-productos:hover {
+  border-color: #62ab37;
+}
+
+.buscador-icono {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #62ab37;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.buscador-icono:hover {
+  transform: rotate(7deg);
+}
+
+.buscador-productos input {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border: none;
+  font-size: 1rem;
+  border-radius: 8px;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+
+.buscador-productos input:focus {
+  box-shadow: 0 0 8px rgba(98, 171, 55, 0.5);
+  border-radius: 20px;
+}
+
+.buscador-productos button {
+  background-color: transparent;
+  color: #62ab37;
+  border: 1px solid #62ab37;
+  padding: 0.5rem 0.8rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.buscador-productos button:hover {
+  background-color: #62ab37;
+  color: white;
+}
+
+
+/* =========================== */
+/* 📚 Sidebar lateral */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px; /* oculto por defecto */
+  width: 230px;
+  height: 100vh;
+  background-color: #f9f9f9; /* gris claro */
+  color: #000000; /* texto negro */
+  padding: 20px;
+  transition: left 0.3s ease-in-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e1e0e0;
+}
+
+/* Estado desplegado del menú */
+.sidebar.active {
+  left: 0;
+}
+
+/* Ícono de hamburguesa */
+.sidebar .menu-icon {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #000000; /* ícono en negro */
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+/* Botones del menú lateral */
+.sidebar-btn {
+  background: none;
+  border: none;
+  color: #000000; /* texto en negro */
+  text-align: left;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-btn:hover {
+  background-color: #e1e0e0;
+  text-decoration: underline;
+}
+
+.sidebar-btn i {
+  font-size: 1.3rem;
+  color: #000000; /* íconos en negro */
+}
+
+
+
+/* =========================== */
+/* ✅ Botones dentro de la sidebar */
+/* =========================== */
+.sidebar-btn {
+  background: none;
+  border: none;
+  color: white;
+  text-align: left;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-btn:hover {
+  background-color: #229954;
+  text-decoration: underline;
+}
+
+.sidebar-btn i {
+  font-size: 1.1rem;
+}
+
+
+/* =========================== */
+/* ✅ Mensajes tipo flash */
+/* =========================== */
+.mensajes {
+  list-style: none;
+  padding: 1rem;
+  margin: 1rem auto;
+  max-width: 700px;
+  background-color: #f1f8e9;
+  border-left: 6px solid #62ab37;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #34495e;
+  border: 1px solid #e1e0e0;
+}
+
+
+/* =========================== */
+/* 🛍 Catálogo de productos */
+/* =========================== */
+.catalogo-productos {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+
+/* =========================== */
+/* 🧱 Tarjetas de productos */
+/* =========================== */
+.producto-card {
+  background-color: white;
+  border-radius: 12px;
+  border: 1px solid #e1e0e0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  animation: fadeUp 0.5s ease-in-out;
+  transition: transform 0.2s ease;
+}
+
+.producto-card:hover {
+  transform: translateY(-5px);
+  border-color: #62ab37;
+  box-shadow: 0 0 6px rgba(98, 171, 55, 0.3);
+}
+
+.producto-img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+  border-radius: 12px 12px 0 0;
+}
+
+.info-producto {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 1rem;
+}
+
+.info-producto h3 {
+  width: 100%;
+  text-align: center;
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  color: #2c3e50;
+}
+
+.precio {
+  color: #62ab37;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-right: auto;
+}
+
+.stock {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+
+/* =========================== */
+/* 🎯 Botón Agregar */
+/* =========================== */
+.info-producto button,
+.agregar-btn {
+  background-color: #62ab37;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  align-self: flex-end;
+}
+
+.info-producto button:hover,
+.agregar-btn:hover {
+  background-color: #27ae60;
+}
+
+.info-producto button:active,
+.agregar-btn:active {
+  animation: pulseAdd 0.3s ease-in-out;
+}
+
+
+/* =========================== */
+/* 📱 Estilos responsive */
+/* =========================== */
+@media screen and (max-width: 480px) {
+  .titulo-header {
+    font-size: 1.6rem;
+  }
+
+  .menu-icon,
+  .cart-icon {
+    font-size: 1.8rem;
+  }
+
+  .buscador-productos input {
+    font-size: 0.9rem;
+  }
+
+  .buscador-productos button {
+    font-size: 1rem;
+  }
+
+  .sidebar {
+    width: 80%;
+  }
+}
+
+
